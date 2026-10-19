@@ -86,6 +86,15 @@
 
         .soon { color: var(--muted); max-width: 56ch; }
 
+        .about-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
+        .about-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; }
+        .about-card.wide { grid-column: 1 / -1; }
+        .about-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+        .about-card p { color: var(--muted); font-size: 1rem; max-width: 64ch; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+        .chips li { padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+        .about .skills-title { margin-top: 36px; font-size: 1.1rem; font-weight: 700; }
+
         .cert { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 420px; }
         .cert img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
         .cert-body { padding: 20px 24px 24px; }
@@ -192,7 +201,41 @@
     <section class="block about" id="about">
         <div class="wrap">
             <h2>About me</h2>
-            <p>Hi, I'm Marc Reily Palattao. A friendly and a good friend, happy, joker, One call away and a gamer</p>
+            <div class="about-grid">
+                <div class="about-card wide">
+                    <h3>Bio</h3>
+                    <p>Hi, I'm Marc Reily Palattao. A 4th year Computer Engineering student from Cagayan State University (Carig Campus). A friendly and a good friend, happy, joker, One call away and Loving son</p>
+                </div>
+                <div class="about-card">
+                    <h3>Location</h3>
+                    <p>I'm from Callao Sur, Lasam, Cagayan</p>
+                </div>
+                <div class="about-card">
+                    <h3>Hobbies</h3>
+                    <ul class="chips">
+                        <li>Playing Online Games</li>
+                        <li>Bonding with Friends</li>
+                        <li>Eating</li>
+                        <li>Solving Math Problems</li>
+                    </ul>
+                </div>
+                <div class="about-card">
+                    <h3>Friends</h3>
+                    <p>Ingrid Fiona M. Paeste</p>
+                    <p>Mitz Zyrelle M. Victorio</p>
+                    <p>John Medric M. Gumabay</p>
+                    <p>Mariel Clarizze D. Domingo</p>
+                    <p>Alex Milo</p>
+                    <p>Vincent Maño</p>
+                    <p>Kweeny Gelotin</p>
+                </div>
+                <div class="about-card">
+                    <h3>Lover</h3>
+                    <p>My loml, Russel Heinrich Esposo Sawyer</p>
+                </div>
+            </div>
+
+            <h3 class="skills-title">Skills</h3>
             <ul class="skills">
                 <li>HTML</li>
                 <li>CSS</li>
