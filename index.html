@@ -6,317 +6,386 @@
     <title>Marc Reily Palattao | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <noscript><style>#boot{display:none}body.locked{overflow:auto}</style></noscript>
     <style>
         :root {
-            --bg: #fbfbfd;
-            --surface: #ffffff;
-            --ink: #111827;
-            --muted: #4b5563;
-            --accent: #8a0ff5;
-            --accent-soft: #f3e8ff;
-            --line: #e5e7eb;
-            --chip: #e5e7eb;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #0f1117;
-                --surface: #181b24;
-                --ink: #f3f4f6;
-                --muted: #a1a8b5;
-                --accent: #b565ff;
-                --accent-soft: #2a1b3d;
-                --line: #272b36;
-                --chip: #272b36;
-            }
+            color-scheme: dark;
+            --bg: #05080f; --panel: #0b1220; --panel2: #101a2e; --line: #1c2b47;
+            --ink: #e6eefb; --muted: #8fa3c2; --accent: #4cc9f0; --accent2: #ffb703;
+            --mono: "JetBrains Mono", ui-monospace, Consolas, Menlo, monospace;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-        body { font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+        html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+        body {
+            font-family: "Inter", system-ui, sans-serif; color: var(--ink); line-height: 1.6; background-color: var(--bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180' fill='none' stroke='%234cc9f0' stroke-opacity='.07' stroke-width='1.5'%3E%3Cpath d='M0 45h55l16 16h44M90 0v34l22 22h68M0 135h34l22-22h56l16 16v51M145 180v-34l16-16h19'/%3E%3Ccircle cx='55' cy='45' r='3'/%3E%3Ccircle cx='115' cy='61' r='3'/%3E%3Ccircle cx='34' cy='135' r='3'/%3E%3Ccircle cx='128' cy='129' r='3'/%3E%3C/svg%3E");
+        }
+        body.locked { overflow: hidden; height: 100%; }
         a { color: var(--accent); }
-        a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+        a:focus-visible { outline: 3px solid var(--accent2); outline-offset: 3px; }
         .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
         svg { display: block; }
+        .mono { font-family: var(--mono); }
+        .cursor { display: inline-block; width: 9px; height: 1em; background: currentColor; margin-left: 4px; vertical-align: -0.15em; animation: blink 1s steps(2) infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Boot screen */
+        #boot { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: #02050a; color: var(--accent); font-family: var(--mono); transition: opacity .5s; cursor: pointer; }
+        #boot.off { opacity: 0; pointer-events: none; }
+        #boot::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px); }
+        .boot-box { width: min(520px, 100%); text-align: center; }
+        .boot-logo { font-size: 2.6rem; font-weight: 700; color: var(--accent2); }
+        .boot-title { font-family: "Inter", sans-serif; font-size: clamp(1.3rem, 4.5vw, 1.9rem); font-weight: 800; color: var(--ink); letter-spacing: .06em; margin-top: 4px; }
+        .boot-sub { color: var(--muted); font-size: .78rem; margin: 6px 0 24px; }
+        .boot-log { list-style: none; text-align: left; font-size: .82rem; color: var(--muted); min-height: 8.4em; margin: 0 auto 16px; max-width: 380px; }
+        .boot-log b { color: #3ddc97; }
+        .bar { height: 16px; border: 1.5px solid var(--accent); border-radius: 3px; padding: 2px; }
+        .bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 11px); }
+        .boot-pct { margin-top: 10px; font-size: .82rem; color: var(--muted); }
+        .boot-key { margin-top: 26px; color: var(--accent2); font-size: 1rem; font-weight: 700; }
+        .boot-key small { display: block; color: var(--muted); font-weight: 400; font-size: .74rem; margin-top: 4px; }
+        body:not(.locked) .page { animation: pwr .8s ease both; }
+        @keyframes pwr { from { opacity: 0; } to { opacity: 1; } }
 
         /* Navigation */
-        .topbar { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
-        .topbar .wrap { display: flex; justify-content: space-between; align-items: center; height: 72px; gap: 16px; }
-        .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.15rem; color: var(--accent); text-decoration: none; }
-        .brand svg { width: 22px; height: 22px; }
-        .menu { list-style: none; display: flex; gap: 8px; }
-        .menu a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 0.95rem; border-bottom: 2px solid transparent; }
-        .menu a:hover, .menu a.active { color: var(--accent); border-bottom-color: var(--accent); }
-        .menu svg { width: 16px; height: 16px; }
+        .topbar { position: sticky; top: 0; z-index: 10; background: rgba(5, 8, 15, .9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+        .topbar .wrap { display: flex; justify-content: space-between; align-items: center; height: 68px; gap: 16px; }
+        .brand { font-family: var(--mono); font-weight: 700; color: var(--ink); text-decoration: none; }
+        .brand span { color: var(--accent2); }
+        .menu { list-style: none; display: flex; gap: 4px; }
+        .menu a { display: flex; gap: 8px; padding: 8px 12px; color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: .88rem; border-bottom: 2px solid transparent; }
+        .menu a i { font-style: normal; color: var(--accent); }
+        .menu a:hover, .menu a.active { color: var(--ink); border-bottom-color: var(--accent); }
 
         /* Hero */
-        .hero { padding: 72px 0 96px; }
-        .hero .wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
-        .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
-        .typing { margin-top: 10px; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 600; color: var(--muted); min-height: 1.3em; }
-        .typing .cursor { display: inline-block; width: 2px; height: 1em; background: var(--accent); margin-left: 3px; vertical-align: -0.12em; animation: blink 1s steps(2) infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-        .tagline { margin-top: 22px; font-size: 1.1rem; color: var(--muted); max-width: 46ch; }
-        .follow { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
-        .follow strong { font-size: 0.95rem; margin-right: 4px; }
-        .follow a { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--chip); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: background .15s, color .15s; }
-        .follow a:hover { background: var(--accent); color: #fff; }
+        .hero { padding: 80px 0 96px; }
+        .hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+        .eyebrow { color: var(--accent2); font-size: .9rem; margin-bottom: 14px; }
+        .hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+        .grad { background: linear-gradient(90deg, var(--accent), #8bdcf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .typing { margin-top: 14px; font-family: var(--mono); font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--accent2); min-height: 1.4em; }
+        .tagline { margin-top: 20px; color: var(--muted); max-width: 50ch; font-size: 1.05rem; }
+        .follow { display: flex; align-items: center; gap: 10px; margin-top: 26px; }
+        .follow strong { font-family: var(--mono); font-size: .85rem; color: var(--muted); font-weight: 500; margin-right: 4px; }
+        .follow a { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; font-weight: 700; transition: border-color .15s, color .15s; }
+        .follow a:hover { border-color: var(--accent); color: var(--accent); }
         .follow svg { width: 18px; height: 18px; fill: currentColor; }
-        .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
-        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 2px solid var(--accent); transition: transform .15s; }
+        .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; border-radius: 8px; font-family: var(--mono); font-size: .92rem; font-weight: 700; text-decoration: none; border: 1.5px solid var(--accent); transition: transform .15s; }
         .btn svg { width: 16px; height: 16px; }
-        .btn.solid { background: var(--accent); color: #fff; }
-        .btn.line { color: var(--accent); background: transparent; }
+        .btn.solid { background: var(--accent); color: #031018; }
+        .btn.line { color: var(--accent); }
         .btn:hover { transform: translateY(-2px); }
+        .spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; margin-top: 34px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; max-width: 560px; }
+        .spec div { background: var(--panel); padding: 12px 16px; }
+        .spec small { display: block; font-family: var(--mono); font-size: .7rem; color: var(--accent2); letter-spacing: .08em; }
+        .spec span { font-size: .9rem; font-weight: 600; }
 
-        /* Profile photo */
-        .photo-side { position: relative; display: grid; place-items: center; }
-        .photo { width: min(380px, 80vw); aspect-ratio: 1; border-radius: 50%; border: 5px solid var(--surface); box-shadow: 0 0 0 1px var(--line), 0 20px 70px rgba(138, 15, 245, .35); overflow: hidden; background: var(--accent-soft); }
+        .photo-side { display: grid; place-items: center; padding: 20px 14px; }
+        .chip { position: relative; width: min(340px, 72vw); aspect-ratio: 1; padding: 22px; border-radius: 18px; background: var(--panel2); border: 2px solid var(--accent); box-shadow: 0 0 70px rgba(76, 201, 240, .2); }
+        .chip::before, .chip::after { content: ""; position: absolute; top: 34px; bottom: 34px; width: 12px; background: repeating-linear-gradient(to bottom, var(--accent) 0 8px, transparent 8px 22px); }
+        .chip::before { left: -14px; }
+        .chip::after { right: -14px; }
+        .notch { position: absolute; top: 9px; left: 9px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent2); }
+        .photo { width: 100%; height: 100%; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: #070d18; }
         .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .badge { position: absolute; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); box-shadow: 0 4px 14px rgba(0,0,0,.15); font-weight: 700; font-size: 0.8rem; color: var(--accent); }
-        .badge.b1 { top: 12%; left: 4%; }
-        .badge.b2 { top: 22%; right: 2%; }
-        .badge.b3 { bottom: 14%; right: -2%; }
+        .pin { position: absolute; font-family: var(--mono); font-size: .74rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: var(--panel); border: 1px solid var(--accent2); color: var(--accent2); }
+        .p1 { top: -15px; left: 36px; } .p2 { top: -15px; right: 36px; }
+        .p3 { bottom: -15px; left: 50%; transform: translateX(-50%); }
 
-        /* Sections */
-        section.block { padding: 80px 0; border-top: 1px solid var(--line); }
-        section.block h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 20px; }
-        .about p { max-width: 64ch; color: var(--muted); font-size: 1.05rem; }
-        .skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; list-style: none; }
-        .skills li { padding: 8px 16px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+        /* Window-style sections */
+        section.block { padding: 64px 0; border-top: 1px solid var(--line); }
+        .win { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
+        .win-bar { display: flex; align-items: center; gap: 8px; padding: 11px 16px; background: var(--panel2); border-bottom: 1px solid var(--line); }
+        .win-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+        .win-bar i:nth-child(1) { background: #ff5f57; } .win-bar i:nth-child(2) { background: #febc2e; } .win-bar i:nth-child(3) { background: #28c840; }
+        .win-bar span { margin-left: 8px; font-family: var(--mono); font-size: .82rem; color: var(--muted); }
+        .win-body { padding: 28px 28px 32px; }
+        .win-body h2 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 22px; }
 
-        .soon { color: var(--muted); max-width: 56ch; }
-
-        .about-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
-        .about-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; }
-        .about-card.wide { grid-column: 1 / -1; }
-        .about-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-        .about-card p { color: var(--muted); font-size: 1rem; max-width: 64ch; }
+        .about-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .card { background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+        .card.wide { grid-column: 1 / -1; }
+        .card h3 { font-family: var(--mono); font-size: .88rem; color: var(--accent); margin-bottom: 10px; }
+        .card h3 span { color: var(--muted); margin-right: 8px; }
+        .card p { color: var(--muted); }
         .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
-        .chips li { padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 0.9rem; }
-        .about .skills-title { margin-top: 36px; font-size: 1.1rem; font-weight: 700; }
+        .chips li { padding: 5px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); font-size: .88rem; }
+        .plain { list-style: none; color: var(--muted); }
+        .plain li::before { content: "▸ "; color: var(--accent2); }
 
-        .cert { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 420px; }
-        .cert-grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .cert { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-        .cert img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: var(--accent-soft); display: block; border-bottom: 1px solid var(--line); }
-        .cert-body { padding: 20px 24px 24px; flex: 1; }
+        .term { margin-top: 22px; border-radius: 10px; overflow: hidden; background: #040810; border: 1px solid var(--line); font-family: var(--mono); }
+        .term-title { padding: 9px 16px; background: var(--panel2); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+        .term-body { padding: 18px 20px 22px; font-size: .9rem; }
+        .term-cmd { color: var(--muted); margin-bottom: 14px; }
+        .term-cmd b, .term-end { color: var(--accent2); font-weight: 400; }
+        .term-items { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-bottom: 16px; }
+        .term-items li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+        .term-items li::before { content: "> "; color: var(--accent); }
 
-        .projects { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
-        .project { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 26px; }
-        .project h3 { font-size: 1.15rem; margin-bottom: 8px; }
-        .project p { color: var(--muted); font-size: 0.95rem; margin-bottom: 16px; }
-        .project a { font-weight: 600; text-decoration: none; }
-        .project a:hover { text-decoration: underline; }
+        .cert-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+        .cert { display: flex; flex-direction: column; background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: border-color .15s, transform .15s; }
+        .cert:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .cert img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #040810; display: block; border-bottom: 1px solid var(--line); }
+        .cert-body { padding: 18px 20px 22px; flex: 1; }
+        .cert-body h3 { font-size: 1rem; margin-bottom: 8px; }
+        .cert-body p { color: var(--muted); font-size: .88rem; margin-bottom: 14px; }
+        .cert-body a { font-family: var(--mono); font-size: .85rem; font-weight: 700; text-decoration: none; }
+        .cert-body a:hover { text-decoration: underline; }
 
-        .contact p { color: var(--muted); max-width: 56ch; margin-bottom: 22px; }
-        .contact-list { list-style: none; display: grid; gap: 14px; margin-top: 8px; }
-        .contact-list li { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; max-width: 480px; }
-        .contact-label { font-weight: 700; min-width: 64px; color: var(--muted); }
-        .contact-list a { font-weight: 600; text-decoration: none; word-break: break-all; }
-        .contact-list a:hover { text-decoration: underline; }
-        footer { padding: 36px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 0.9rem; }
+        .win-body > p { color: var(--muted); max-width: 56ch; margin-bottom: 22px; }
+        .contact-list { list-style: none; display: grid; gap: 12px; max-width: 520px; }
+        .contact-list li { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; padding: 15px 20px; }
+        .contact-label { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; color: var(--accent2); min-width: 62px; }
+        .contact-list a { color: var(--ink); font-weight: 600; text-decoration: none; word-break: break-all; }
+        .contact-list a:hover { color: var(--accent); }
+
+        footer { padding: 34px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-family: var(--mono); font-size: .82rem; }
 
         @media (max-width: 820px) {
             .hero .wrap { grid-template-columns: 1fr; }
             .photo-side { order: -1; }
-            .menu a span { display: none; }
-            .menu a { padding: 8px 10px; }
+            .menu a i { display: none; }
+            .menu a { padding: 8px; font-size: .8rem; }
+            .brand { font-size: .85rem; }
+            .win-body { padding: 20px 18px 24px; }
         }
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
-            .typing .cursor { animation: none; }
-            .btn { transition: none; }
+            .cursor { animation: none; }
+            .btn, .cert, #boot { transition: none; }
+            body:not(.locked) .page { animation: none; }
         }
     </style>
 </head>
-<body>
+<body class="locked">
 
-<div class="topbar">
-    <div class="wrap">
-        <a class="brand" href="#home">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg>
-            Marc Reily Palattao
-        </a>
-        <ul class="menu">
-            <li><a href="#home" class="active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a></li>
-            <li><a href="#about">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6 17c.6-1.7 5.4-1.7 6 0"/></svg><span>About</span></a></li>
-            <li><a href="#certificates">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14.5L7 22l5-3 5 3-1.5-7.5"/></svg><span>Certificates</span></a></li>
-            <li><a href="#contact">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg><span>Contact</span></a></li>
-        </ul>
+<div id="boot" role="dialog" aria-label="Boot screen. Press any key to continue" tabindex="-1">
+    <div class="boot-box">
+        <div class="boot-logo">&gt;_</div>
+        <div class="boot-title">MARC REILY PALATTAO</div>
+        <p class="boot-sub">COMPUTER ENGINEERING // PORTFOLIO v1.0</p>
+        <ul class="boot-log" id="log"></ul>
+        <div class="bar" aria-hidden="true"><i id="fill"></i></div>
+        <div class="boot-pct"><span id="pct">0%</span> loading...</div>
+        <p class="boot-key" id="key" hidden>Press any key to continue<span class="cursor" aria-hidden="true"></span><small>(or tap the screen)</small></p>
     </div>
 </div>
 
-<main>
-    <section class="hero" id="home">
+<div class="page">
+    <div class="topbar">
         <div class="wrap">
-            <div>
-                <h1>Hi, I'm Marc Reily Palattao</h1>
-                <div class="typing" aria-live="off"><span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
-                <p class="tagline">A friendly man you can lean on, and who is easy to get along with. Also you can call me Sevi at the same time.</p>
-
-                <div class="follow">
-                    <strong>Follow me:</strong>
-                    <a href="https://github.com/marcreilypalattao" aria-label="GitHub" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                    </a>
-                    <a href="https://www.tiktok.com/@zych.gaming" aria-label="TikTok" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-                    </a>
-                    <a href="https://www.instagram.com/_mrcryly/" aria-label="Instagram" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-                    </a>
-                    <a href="https://www.facebook.com/zychsevi" aria-label="Facebook" target="_blank" rel="noopener">f</a>
-                </div>
-
-                <div class="actions">
-                    <a class="btn solid" href="cv.pdf" download>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 20h16"/></svg>
-                        Download CV
-                    </a>
-                    <a class="btn line" href="#contact">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
-                        Contact Me
-                    </a>
-                </div>
-            </div>
-
-            <div class="photo-side">
-                <div class="photo">
-                    <!-- Your photo file is MYPHOTO.jpg. If it is missing, profile.png is shown instead. -->
-                    <img src="MYPHOTO.jpg" alt="Photo of Marc Reily Palattao" onerror="this.onerror=null;this.src='profile.png';">
-                </div>
-                <span class="badge b1" aria-hidden="true">HTML</span>
-                <span class="badge b2" aria-hidden="true">CSS</span>
-                <span class="badge b3" aria-hidden="true">JS</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="block about" id="about">
-        <div class="wrap">
-            <h2>About me</h2>
-            <div class="about-grid">
-                <div class="about-card wide">
-                    <h3>Bio</h3>
-                    <p>Hi, I'm Marc Reily Palattao. A 4th year Computer Engineering student from Cagayan State University (Carig Campus). A friendly and a good friend, happy, joker, One call away and Gamer. I love BTS and my bias is Kim Taehyung (V). </p>
-                </div>
-                <div class="about-card">
-                    <h3>Location</h3>
-                    <p>Callao Sur, Lasam, Cagayan</p>
-                </div>
-                <div class="about-card">
-                    <h3>Hobbies</h3>
-                    <ul class="chips">
-                        <li>Playing Online Games</li>
-                        <li>Bonding with Friends</li>
-                        <li>Eating</li>
-                        <li>Solving Math Problems</li>
-                        <li>Watching K-drama</li>
-                        <li>Loves to play K-pop musics</li>
-                    </ul>
-                </div>
-                <div class="about-card">
-                    <h3>Friends</h3>
-                    <p>Ingrid Fiona M. Paeste</p>
-                    <p>Mitz Zyrelle M. Victorio</p>
-                    <p>John Medric M. Gumabay</p>
-                    <p>Mariel Clarizze D. Domingo</p>
-                    <p>Alex Milo</p>
-                    <p>Vincent Maño</p>
-                    <p>Kweeny Gelotin</p>
-                </div>
-                <div class="about-card">
-                    <h3>Lover</h3>
-                    <p>My loml, Russel Heinrich Esposo Sawyer</p>
-                </div>
-            </div>
-
-            <h3 class="skills-title">Skills</h3>
-            <ul class="skills">
-                <li>Problem Solving</li>
-                <li>Time Management</li>
-                <li>Quick Learning</li>
-                <li>Strong Communication</li>
-                <li>Team Collaboration</li>
-                <li>Analytical Thinking</li>
+            <a class="brand" href="#home"><span>&gt;_</span> Marc Reily Palattao</a>
+            <ul class="menu">
+                <li><a href="#home" class="active"><i>01</i>Home</a></li>
+                <li><a href="#about"><i>02</i>About</a></li>
+                <li><a href="#certificates"><i>03</i>Certificates</a></li>
+                <li><a href="#contact"><i>04</i>Contact</a></li>
             </ul>
         </div>
-    </section>
+    </div>
 
-    <section class="block" id="certificates">
-        <div class="wrap">
-            <h2>Certificates</h2>
-            <div class="cert-grid">
+    <main>
+        <section class="hero" id="home">
+            <div class="wrap">
+                <div>
+                    <p class="eyebrow mono">// computer engineering student</p>
+                    <h1>Hi, I'm <span class="grad">Marc Reily Palattao</span></h1>
+                    <div class="typing" aria-live="off">&gt; <span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
+                    <p class="tagline">A friendly man you can lean on, and who is easy to get along with. Also you can call me Sevi at the same time.</p>
 
-                <article class="cert">
-                    <a href="certificate1.jpg" target="_blank" rel="noopener">
-                        <img src="certificate1.jpg" alt="Certificate of Completion: Basic Occupational Safety and Health Training">
-                    </a>
-                    <div class="cert-body">
-                        <h3>Basic Occupational Safety and Health Training</h3>
-                        <p>Department of Labor and Employment, Occupational Safety and Health Center<br>May 28, 2026</p>
-                        <a href="certificate1.jpg" target="_blank" rel="noopener">View full certificate</a>
+                    <div class="follow">
+                        <strong>follow:</strong>
+                        <a href="https://github.com/marcreilypalattao" aria-label="GitHub" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@zych.gaming" aria-label="TikTok" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/_mrcryly/" aria-label="Instagram" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                        </a>
+                        <a href="https://www.facebook.com/zychsevi" aria-label="Facebook" target="_blank" rel="noopener">f</a>
                     </div>
-                </article>
 
-                <article class="cert">
-                    <a href="certificate3.png" target="_blank" rel="noopener">
-                        <img src="certificate3.png" alt="Certificate of Participation: Frontiers of Computer Engineering 2025 International Conference">
-                    </a>
-                    <div class="cert-body">
-                        <h3>Frontiers of Computer Engineering: 2025 International Conference on New and Emerging Tools</h3>
-                        <p>Collaborative Innovation: Shaping the Future of Technology through Academic-Industry Partnership, Day 01<br>December 12, 2025</p>
-                        <a href="certificate3.png" target="_blank" rel="noopener">View full certificate</a>
+                    <div class="actions">
+                        <a class="btn solid" href="cv.pdf" download>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 20h16"/></svg>
+                            Download CV
+                        </a>
+                        <a class="btn line" href="#contact">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+                            Contact Me
+                        </a>
                     </div>
-                </article>
 
-                <article class="cert">
-                    <a href="certificate2.png" target="_blank" rel="noopener">
-                        <img src="certificate2.png" alt="Certificate of Participation: Frontiers of Computer Engineering 2025 International Conference">
-                    </a>
-                    <div class="cert-body">
-                        <h3>Frontiers of Computer Engineering: 2025 International Conference on New and Emerging Tools</h3>
-                        <p>Collaborative Innovation: Shaping the Future of Technology through Academic-Industry Partnership, Day 02<br>December 13, 2025</p>
-                        <a href="certificate2.png" target="_blank" rel="noopener">View full certificate</a>
+                    <div class="spec">
+                        <div><small>YEAR</small><span>4th Year</span></div>
+                        <div><small>PROGRAM</small><span>Computer Engineering</span></div>
+                        <div><small>SCHOOL</small><span>Cagayan State University, Carig</span></div>
                     </div>
-                </article>
+                </div>
 
+                <div class="photo-side">
+                    <div class="chip">
+                        <span class="notch" aria-hidden="true"></span>
+                        <div class="photo">
+                            <img src="MYPHOTO.jpg" alt="Photo of Marc Reily Palattao" onerror="this.onerror=null;this.src='profile.png';">
+                        </div>
+                        <span class="pin p1" aria-hidden="true">HTML</span>
+                        <span class="pin p2" aria-hidden="true">CSS</span>
+                        <span class="pin p3" aria-hidden="true">JS</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="block contact" id="contact">
-        <div class="wrap">
-            <h2>Contact</h2>
-            <p>Have a question? Send me an email or call me and I'll reply as soon as I can.</p>
-            <ul class="contact-list">
-                <li>
-                    <span class="contact-label">Email</span>
-                    <a href="mailto:marcreilyoattalap@gmail.com">marcreilyoattalap@gmail.com</a>
-                </li>
-                <li>
-                    <span class="contact-label">Phone</span>
-                    <a href="tel:+639970917528">0997 091 7528</a>
-                </li>
-            </ul>
-        </div>
-    </section>
-</main>
+        <section class="block" id="about">
+            <div class="wrap">
+                <div class="win">
+                    <div class="win-bar"><i></i><i></i><i></i><span>about.exe</span></div>
+                    <div class="win-body">
+                        <h2>About me</h2>
+                        <div class="about-grid">
+                            <div class="card wide">
+                                <h3><span>0x01</span>Bio</h3>
+                                <p>Hi, I'm Marc Reily Palattao. A 4th year Computer Engineering student from Cagayan State University (Carig Campus). A friendly and a good friend, happy, joker, One call away and Gamer. I love BTS and my bias is Kim Taehyung (V).</p>
+                            </div>
+                            <div class="card">
+                                <h3><span>0x02</span>Location</h3>
+                                <p>Callao Sur, Lasam, Cagayan</p>
+                            </div>
+                            <div class="card">
+                                <h3><span>0x03</span>Hobbies</h3>
+                                <ul class="chips">
+                                    <li>Playing Online Games</li>
+                                    <li>Bonding with Friends</li>
+                                    <li>Eating</li>
+                                    <li>Solving Math Problems</li>
+                                    <li>Watching K-drama</li>
+                                    <li>Loves to play K-pop musics</li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <h3><span>0x04</span>Friends</h3>
+                                <ul class="plain">
+                                    <li>Ingrid Fiona M. Paeste</li>
+                                    <li>Mitz Zyrelle M. Victorio</li>
+                                    <li>John Medric M. Gumabay</li>
+                                    <li>Mariel Clarizze D. Domingo</li>
+                                    <li>Alex Milo</li>
+                                    <li>Vincent Maño</li>
+                                    <li>Kweeny Gelotin</li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <h3><span>0x05</span>Lover</h3>
+                                <p>My loml, Russel Heinrich Esposo Sawyer</p>
+                            </div>
+                        </div>
 
-<footer>© 2026 Marc Reily Palattao</footer>
+                        <div class="term">
+                            <div class="term-title">skills.sh</div>
+                            <div class="term-body">
+                                <div class="term-cmd"><b>marc@cpe:~$</b> cat skills.txt</div>
+                                <ul class="term-items">
+                                    <li>Problem Solving</li>
+                                    <li>Time Management</li>
+                                    <li>Quick Learning</li>
+                                    <li>Strong Communication</li>
+                                    <li>Team Collaboration</li>
+                                    <li>Analytical Thinking</li>
+                                </ul>
+                                <div class="term-end">marc@cpe:~$<span class="cursor" aria-hidden="true"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="certificates">
+            <div class="wrap">
+                <div class="win">
+                    <div class="win-bar"><i></i><i></i><i></i><span>certificates/</span></div>
+                    <div class="win-body">
+                        <h2>Certificates</h2>
+                        <div class="cert-grid">
+
+                            <article class="cert">
+                                <a href="certificate1.jpg" target="_blank" rel="noopener">
+                                    <img src="certificate1.jpg" alt="Certificate of Completion: Basic Occupational Safety and Health Training">
+                                </a>
+                                <div class="cert-body">
+                                    <h3>Basic Occupational Safety and Health Training</h3>
+                                    <p>Department of Labor and Employment, Occupational Safety and Health Center<br>May 28, 2026</p>
+                                    <a href="certificate1.jpg" target="_blank" rel="noopener">View full certificate</a>
+                                </div>
+                            </article>
+
+                            <article class="cert">
+                                <a href="certificate3.png" target="_blank" rel="noopener">
+                                    <img src="certificate3.png" alt="Certificate of Participation: Frontiers of Computer Engineering 2025 International Conference, Day 01">
+                                </a>
+                                <div class="cert-body">
+                                    <h3>Frontiers of Computer Engineering: 2025 International Conference on New and Emerging Tools</h3>
+                                    <p>Collaborative Innovation: Shaping the Future of Technology through Academic-Industry Partnership, Day 01<br>December 12, 2025</p>
+                                    <a href="certificate3.png" target="_blank" rel="noopener">View full certificate</a>
+                                </div>
+                            </article>
+
+                            <article class="cert">
+                                <a href="certificate2.png" target="_blank" rel="noopener">
+                                    <img src="certificate2.png" alt="Certificate of Participation: Frontiers of Computer Engineering 2025 International Conference, Day 02">
+                                </a>
+                                <div class="cert-body">
+                                    <h3>Frontiers of Computer Engineering: 2025 International Conference on New and Emerging Tools</h3>
+                                    <p>Collaborative Innovation: Shaping the Future of Technology through Academic-Industry Partnership, Day 02<br>December 13, 2025</p>
+                                    <a href="certificate2.png" target="_blank" rel="noopener">View full certificate</a>
+                                </div>
+                            </article>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="contact">
+            <div class="wrap">
+                <div class="win">
+                    <div class="win-bar"><i></i><i></i><i></i><span>contact.sys</span></div>
+                    <div class="win-body">
+                        <h2>Contact</h2>
+                        <p>Have a question? Send me an email or call me and I'll reply as soon as I can.</p>
+                        <ul class="contact-list">
+                            <li>
+                                <span class="contact-label">EMAIL</span>
+                                <a href="mailto:marcreilyoattalap@gmail.com">marcreilyoattalap@gmail.com</a>
+                            </li>
+                            <li>
+                                <span class="contact-label">PHONE</span>
+                                <a href="tel:+639970917528">0997 091 7528</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>© 2026 Marc Reily Palattao // built with HTML, CSS &amp; JS</footer>
+</div>
 
 <script>
-    // Typing headline
-    var roles = ["Handsome", "Friendly", "Problem Solver", "Cute", "Gamer"];
-    var el = document.getElementById("typed");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-        el.textContent = roles[0];
-    } else {
+
+    // Typing headline (starts after the boot screen closes)
+    function startTyping() {
+        var roles = ["Handsome", "Friendly", "Problem Solver", "Cute", "Gamer"];
+        var el = document.getElementById("typed");
+        if (reduce) { el.textContent = roles[0]; return; }
         var r = 0, i = 0, deleting = false;
         (function tick() {
             var word = roles[r];
@@ -327,6 +396,49 @@
             else { deleting = false; r = (r + 1) % roles.length; setTimeout(tick, 300); }
         })();
     }
+
+    // Boot screen
+    var boot = document.getElementById("boot"), fill = document.getElementById("fill"),
+        pctEl = document.getElementById("pct"), logEl = document.getElementById("log"),
+        keyEl = document.getElementById("key");
+    var steps = ["Initializing portfolio.sys", "Loading profile photo", "Mounting certificates", "Linking social profiles", "Starting interface"];
+    var p = 0, shown = 0, ready = false, entered = false, timer;
+
+    function setP(v) {
+        p = v;
+        fill.style.width = v + "%";
+        pctEl.textContent = Math.floor(v) + "%";
+        while (shown < steps.length && v >= (shown + 1) / steps.length * 100) {
+            var li = document.createElement("li");
+            li.innerHTML = "<b>[ OK ]</b> " + steps[shown++];
+            logEl.appendChild(li);
+        }
+    }
+    function finish() {
+        if (ready) return;
+        clearInterval(timer);
+        setP(100);
+        ready = true;
+        keyEl.hidden = false;
+    }
+    function enter() {
+        if (entered) return;
+        entered = true;
+        boot.classList.add("off");
+        document.body.classList.remove("locked");
+        window.scrollTo(0, 0);
+        setTimeout(function () { boot.remove(); }, 600);
+        startTyping();
+    }
+    function onInput(e) {
+        if (e.type === "keydown" && ["Shift", "Control", "Alt", "Meta", "Tab"].indexOf(e.key) > -1) return;
+        if (ready) enter(); else finish();
+    }
+    document.addEventListener("keydown", onInput);
+    boot.addEventListener("pointerdown", onInput);
+    boot.focus();
+    if (reduce) { finish(); }
+    else { timer = setInterval(function () { setP(Math.min(100, p + Math.random() * 2.2 + 0.8)); if (p >= 100) finish(); }, 60); }
 
     // Highlight the menu item for the section you are viewing
     var links = document.querySelectorAll(".menu a");
