@@ -96,12 +96,10 @@
         .about .skills-title { margin-top: 36px; font-size: 1.1rem; font-weight: 700; }
 
         .cert { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 420px; }
-        .cert img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
-        .cert-body { padding: 20px 24px 24px; }
-        .cert-body h3 { font-size: 1.1rem; margin-bottom: 6px; }
-        .cert-body p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
-        .cert-body a { font-weight: 600; text-decoration: none; }
-        .cert-body a:hover { text-decoration: underline; }
+        .cert-grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .cert { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+        .cert img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: var(--accent-soft); display: block; border-bottom: 1px solid var(--line); }
+        .cert-body { padding: 20px 24px 24px; flex: 1; }
 
         .projects { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
         .project { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 26px; }
@@ -252,29 +250,31 @@
     <section class="block" id="certificates">
         <div class="wrap">
             <h2>Certificates</h2>
-            <article class="cert">
-                <a href="certificate1.jpg" target="_blank" rel="noopener">
-                    <img src="certificate1.jpg" alt="Certificate of Completion: Basic Occupational Safety and Health Training">
-                </a>
-                <div class="cert-body">
-                    <h3>Basic Occupational Safety and Health Training</h3>
-                    <p>Department of Labor and Employment, Occupational Safety and Health Center<br>May 28, 2026</p>
-                    <a href="certificate1.jpg" target="_blank" rel="noopener">View full certificate</a>
-                </div>
-            </article>
-        </div>
+            <div class="cert-grid">
 
-        <div class="wrap">
-            <article class="cert">
-                <a href="certificate2.png" target="_blank" rel="noopener">
-                    <img src="certificate2.png" alt="Certificate of Participation">
-                </a>
-                <div class="cert-body">
-                    <h3>Fontiers of Computer Engineering:2025 International Conference on New and Emerging Tools</h3>
-                    <p>Collaborative Innovation: Shaping in the Future of Technology through Academic-Industry Partnership Day 01<br>December 13, 2025</p>
-                    <a href="certificate2.png" target="_blank" rel="noopener">View full certificate</a>
-                </div>
-            </article>
+                <article class="cert">
+                    <a href="certificate1.jpg" target="_blank" rel="noopener">
+                        <img src="certificate1.jpg" alt="Certificate of Completion: Basic Occupational Safety and Health Training">
+                    </a>
+                    <div class="cert-body">
+                        <h3>Basic Occupational Safety and Health Training</h3>
+                        <p>Department of Labor and Employment, Occupational Safety and Health Center<br>May 28, 2026</p>
+                        <a href="certificate1.jpg" target="_blank" rel="noopener">View full certificate</a>
+                    </div>
+                </article>
+
+                <article class="cert">
+                    <a href="certificate2.png" target="_blank" rel="noopener">
+                        <img src="certificate2.png" alt="Certificate of Participation: Frontiers of Computer Engineering 2025 International Conference">
+                    </a>
+                    <div class="cert-body">
+                        <h3>Frontiers of Computer Engineering: 2025 International Conference on New and Emerging Tools</h3>
+                        <p>Collaborative Innovation: Shaping the Future of Technology through Academic-Industry Partnership, Day 01<br>December 13, 2025</p>
+                        <a href="certificate2.png" target="_blank" rel="noopener">View full certificate</a>
+                    </div>
+                </article>
+
+            </div>
         </div>
     </section>
 
