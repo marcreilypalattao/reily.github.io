@@ -30,6 +30,10 @@
         .cursor { display: inline-block; width: 9px; height: 1em; background: currentColor; margin-left: 4px; vertical-align: -0.15em; animation: blink 1s steps(2) infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
+        /* 3D background */
+        #bg3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .page { position: relative; z-index: 1; }
+
         /* Boot screen */
         #boot { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: #02050a; color: var(--accent); font-family: var(--mono); transition: opacity .5s; cursor: pointer; }
         #boot.off { opacity: 0; pointer-events: none; }
@@ -160,6 +164,7 @@
     </style>
 </head>
 <body class="locked">
+<canvas id="bg3d" aria-hidden="true"></canvas>
 
 <div id="boot" role="dialog" aria-label="Boot screen. Press any key to continue" tabindex="-1">
     <div class="boot-box">
@@ -459,6 +464,101 @@
         sections.forEach(function (s, idx) { if (s && s.offsetTop <= y) current = idx; });
         links.forEach(function (a, idx) { a.classList.toggle("active", idx === current); });
     });
+
+    // 3D background: grid floor + wireframe cubes + particles
+    (function () {
+        var c = document.getElementById("bg3d"), g = c.getContext("2d");
+        var W, H, dpr, tx = 0, ty = 0, mx = 0, my = 0, t = 0;
+        var F = 700, D = 900;
+
+        function size() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            W = innerWidth; H = innerHeight;
+            c.width = W * dpr; c.height = H * dpr;
+            g.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        size();
+        addEventListener("resize", size);
+        addEventListener("pointermove", function (e) { tx = e.clientX / W - 0.5; ty = e.clientY / H - 0.5; });
+
+        // Project a 3D point with camera tilt from the mouse
+        function P(x, y, z) {
+            var ry = mx * 0.7, rx = my * 0.35 + 0.18;
+            var x1 = x * Math.cos(ry) - z * Math.sin(ry);
+            var z1 = x * Math.sin(ry) + z * Math.cos(ry);
+            var y1 = y * Math.cos(rx) - z1 * Math.sin(rx);
+            var z2 = y * Math.sin(rx) + z1 * Math.cos(rx) + D;
+            if (z2 < 80) return null;
+            var s = F / z2;
+            return { x: W / 2 + x1 * s, y: H / 2 + y1 * s, s: s, z: z2 };
+        }
+
+        // Cubes
+        var edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+        var cubes = [];
+        for (var i = 0; i < 8; i++) {
+            cubes.push({
+                x: (Math.random() - 0.5) * 1500, y: (Math.random() - 0.5) * 700, z: (Math.random() - 0.5) * 1000,
+                r: 40 + Math.random() * 60, a: Math.random() * 6, b: Math.random() * 6,
+                va: (Math.random() - 0.5) * 0.012, vb: (Math.random() - 0.5) * 0.012,
+                col: i % 4 === 0 ? "255,183,3" : "76,201,240"
+            });
+        }
+        function drawCube(q) {
+            var v = [], k, p;
+            for (k = 0; k < 8; k++) {
+                var X = (k & 1 ? 1 : -1) * q.r, Y = (k & 2 ? 1 : -1) * q.r, Z = (k & 4 ? 1 : -1) * q.r;
+                var x1 = X * Math.cos(q.a) - Z * Math.sin(q.a), z1 = X * Math.sin(q.a) + Z * Math.cos(q.a);
+                var y1 = Y * Math.cos(q.b) - z1 * Math.sin(q.b), z2 = Y * Math.sin(q.b) + z1 * Math.cos(q.b);
+                v.push(P(q.x + x1, q.y + y1, q.z + z2));
+            }
+            g.lineWidth = 1.3;
+            for (k = 0; k < edges.length; k++) {
+                var A = v[edges[k][0]], B = v[edges[k][1]];
+                if (!A || !B) continue;
+                g.strokeStyle = "rgba(" + q.col + "," + Math.max(0.12, Math.min(0.6, 500 / A.z - 0.1)) + ")";
+                g.beginPath(); g.moveTo(A.x, A.y); g.lineTo(B.x, B.y); g.stroke();
+            }
+        }
+
+        // Particles
+        var dots = [];
+        for (var d = 0; d < 110; d++) dots.push({ x: (Math.random() - 0.5) * 2200, y: (Math.random() - 0.5) * 1200, z: (Math.random() - 0.5) * 1800 });
+
+        function drawFloor() {
+            var step = 160, off = (t * 0.6) % step, y = 420, i, a, b;
+            g.lineWidth = 1;
+            for (i = -12; i <= 12; i++) {
+                a = P(i * step, y, -1600); b = P(i * step, y, 1600);
+                if (a && b) { g.strokeStyle = "rgba(76,201,240,.16)"; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); }
+            }
+            for (var z = -1600; z <= 1600; z += step) {
+                a = P(-2000, y, z + off); b = P(2000, y, z + off);
+                if (a && b) {
+                    g.strokeStyle = "rgba(76,201,240," + Math.max(0, Math.min(0.2, 380 / a.z - 0.1)) + ")";
+                    g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+                }
+            }
+        }
+
+        function frame() {
+            t++;
+            mx += (tx - mx) * 0.05; my += (ty - my) * 0.05;
+            g.clearRect(0, 0, W, H);
+            drawFloor();
+            dots.forEach(function (p) {
+                p.y -= 0.25; if (p.y < -600) p.y = 600;
+                var q = P(p.x, p.y, p.z);
+                if (!q) return;
+                g.fillStyle = "rgba(139,220,246," + Math.min(0.7, q.s * 0.7) + ")";
+                g.beginPath(); g.arc(q.x, q.y, Math.max(0.6, q.s * 2.2), 0, 6.283); g.fill();
+            });
+            cubes.forEach(function (q) { q.a += q.va; q.b += q.vb; drawCube(q); });
+            if (!reduce) requestAnimationFrame(frame);
+        }
+        frame();
+    })();
 </script>
+
 </body>
 </html>
