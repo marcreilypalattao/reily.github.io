@@ -86,6 +86,14 @@
 
         .soon { color: var(--muted); max-width: 56ch; }
 
+        .cert { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 420px; }
+        .cert img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
+        .cert-body { padding: 20px 24px 24px; }
+        .cert-body h3 { font-size: 1.1rem; margin-bottom: 6px; }
+        .cert-body p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
+        .cert-body a { font-weight: 600; text-decoration: none; }
+        .cert-body a:hover { text-decoration: underline; }
+
         .projects { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
         .project { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 26px; }
         .project h3 { font-size: 1.15rem; margin-bottom: 8px; }
@@ -195,7 +203,16 @@
     <section class="block" id="certificates">
         <div class="wrap">
             <h2>Certificates</h2>
-            <p class="soon">I'm still building my collection. New certificates will be added here soon.</p>
+            <article class="cert">
+                <a href="certificate1.jpg" target="_blank" rel="noopener">
+                    <img src="certificate1.jpg" alt="Certificate of Completion: Basic Occupational Safety and Health Training">
+                </a>
+                <div class="cert-body">
+                    <h3>Basic Occupational Safety and Health Training</h3>
+                    <p>Department of Labor and Employment, Occupational Safety and Health Center<br>May 28, 2026</p>
+                    <a href="certificate1.jpg" target="_blank" rel="noopener">View full certificate</a>
+                </div>
+            </article>
         </div>
     </section>
 
