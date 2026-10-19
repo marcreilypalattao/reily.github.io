@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Marc Reily Palattao | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f6f7f4;
+            --ink: #1c2321;
+            --muted: #5b6662;
+            --accent: #1f6f5c;
+            --line: #d9ddd8;
+            --card: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #14191a;
+                --ink: #eef1ee;
+                --muted: #9aa5a0;
+                --accent: #5fc4a8;
+                --line: #2b3433;
+                --card: #1b2224;
+            }
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Work Sans", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.65;
+        }
+        a { color: var(--accent); }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+        .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+        nav { padding: 20px 0; border-bottom: 1px solid var(--line); }
+        nav .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        nav strong { font-family: "Fraunces", serif; font-size: 1.1rem; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: var(--muted); font-weight: 500; }
+        nav a:hover { color: var(--ink); }
+
+        header.hero { padding: 96px 0 72px; }
+        .hero h1 {
+            font-family: "Fraunces", serif;
+            font-weight: 800;
+            font-size: clamp(2.4rem, 7vw, 4.4rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            max-width: 14ch;
+        }
+        .hero p { margin-top: 24px; max-width: 52ch; color: var(--muted); font-size: 1.15rem; }
+        .btn {
+            display: inline-block; margin-top: 32px; padding: 12px 24px;
+            background: var(--accent); color: var(--bg); text-decoration: none;
+            font-weight: 500; border-radius: 6px;
+        }
+
+        section { padding: 64px 0; border-top: 1px solid var(--line); }
+        section h2 { font-family: "Fraunces", serif; font-size: 1.8rem; margin-bottom: 24px; }
+        #about p { max-width: 62ch; color: var(--muted); }
+        .skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; list-style: none; }
+        .skills li { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.95rem; }
+
+        .projects { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .project {
+            background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 24px;
+        }
+        .project h3 { font-family: "Fraunces", serif; margin-bottom: 8px; }
+        .project p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
+
+        footer { padding: 48px 0; border-top: 1px solid var(--line); color: var(--muted); }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="wrap">
+        <strong>Marc Reily Palattao</strong>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="wrap">
+        <h1>I build websites people enjoy using.</h1>
+        <p>Hi, I'm Marc Reily, a web developer based in the Philippines. I turn ideas into fast, clean, and friendly websites.</p>
+        <a class="btn" href="#projects">See my projects</a>
+    </div>
+</header>
+
+<section id="about">
+    <div class="wrap">
+        <h2>About me</h2>
+        <p>Write two or three sentences here about who you are, what you study or do, and what kind of work you want to do next.</p>
+        <ul class="skills">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Git and GitHub</li>
+        </ul>
+    </div>
+</section>
+
+<section id="projects">
+    <div class="wrap">
+        <h2>Projects</h2>
+        <div class="projects">
+            <article class="project">
+                <h3>Project one</h3>
+                <p>One sentence about what it does and which tools you used.</p>
+                <a href="#">View project</a>
+            </article>
+            <article class="project">
+                <h3>Project two</h3>
+                <p>One sentence about what it does and which tools you used.</p>
+                <a href="#">View project</a>
+            </article>
+            <article class="project">
+                <h3>Project three</h3>
+                <p>One sentence about what it does and which tools you used.</p>
+                <a href="#">View project</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="wrap">
+        <h2>Contact</h2>
+        <p>Email me at <a href="mailto:marcreilyoattalap@gmail.com">marcreilyoattalap@gmail.com</a> or find me on <a href="https://github.com/reily">GitHub</a>.</p>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">© 2026 Marc Reily Palattao</div>
+</footer>
+</body>
+</html>
