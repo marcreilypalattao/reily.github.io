@@ -128,6 +128,17 @@
         .term-items li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
         .term-items li::before { content: "> "; color: var(--accent); }
 
+        /* Education timeline */
+        .edu { position: relative; list-style: none; padding-left: 28px; }
+        .edu::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+        .edu li { position: relative; margin-bottom: 16px; }
+        .edu li:last-child { margin-bottom: 0; }
+        .edu li::before { content: ""; position: absolute; left: -26px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 2px solid var(--accent); }
+        .edu li.now::before { background: var(--accent2); border-color: var(--accent2); box-shadow: 0 0 12px var(--accent2); }
+        .edu-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+        .edu-years { font-family: var(--mono); font-size: .8rem; color: var(--accent2); }
+        .edu-school { display: block; font-size: 1.05rem; font-weight: 700; }
+
         .cert-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
         .cert { display: flex; flex-direction: column; background: var(--panel2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: border-color .15s, transform .15s; }
         .cert:hover { border-color: var(--accent); transform: translateY(-3px); }
@@ -305,6 +316,45 @@
                                 <div class="term-end">marc@cpe:~$<span class="cursor" aria-hidden="true"></span></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="education">
+            <div class="wrap">
+                <div class="win">
+                    <div class="win-bar"><i></i><i></i><i></i><span>education.log</span></div>
+                    <div class="win-body">
+                        <h2>Educational Background</h2>
+                        <ul class="edu">
+                            <li class="now">
+                                <div class="card">
+                                    <div class="edu-top"><h3><span>College</span></h3><span class="edu-years">20XX - Present</span></div>
+                                    <strong class="edu-school">Cagayan State University, Carig Campus</strong>
+                                    <p>Bachelor of Science in Computer Engineering (4th Year)</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="card">
+                                    <div class="edu-top"><h3><span>Senior High School</span></h3><span class="edu-years">20XX - 20XX</span></div>
+                                    <strong class="edu-school">Western Cagayan School of Arts and Trades</strong>
+                                    <p>Strand: Science Technology Engineering and Mathematics</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="card">
+                                    <div class="edu-top"><h3><span>Junior High School</span></h3><span class="edu-years">20XX - 20XX</span></div>
+                                    <strong class="edu-school">Callao National High School</strong>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="card">
+                                    <div class="edu-top"><h3><span>Elementary</span></h3><span class="edu-years">20XX - 20XX</span></div>
+                                    <strong class="edu-school">Callao Elementary School</strong>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
