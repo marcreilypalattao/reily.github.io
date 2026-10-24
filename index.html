@@ -129,6 +129,8 @@
         .term-items { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-bottom: 16px; }
         .term-items li { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
         .term-items li::before { content: "> "; color: var(--accent); }
+        .term-items.tech li { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+        .term-items.tech li::before { content: "</> "; color: var(--accent2); }
 
         /* Education timeline */
         .edu { position: relative; list-style: none; padding-left: 28px; }
@@ -346,7 +348,15 @@
                         <div class="term">
                             <div class="term-title">skills.sh</div>
                             <div class="term-body">
-                                <div class="term-cmd"><b>marc@cpe:~$</b> cat skills.txt</div>
+                                <div class="term-cmd"><b>marc@cpe:~$</b> ls technical-skills/</div>
+                                <ul class="term-items tech">
+                                    <li>Python</li>
+                                    <li>Java</li>
+                                    <li>C</li>
+                                    <li>C++</li>
+                                </ul>
+
+                                <div class="term-cmd"><b>marc@cpe:~$</b> cat soft-skills.txt</div>
                                 <ul class="term-items">
                                     <li>Problem Solving</li>
                                     <li>Time Management</li>
